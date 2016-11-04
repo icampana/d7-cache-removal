@@ -4,6 +4,11 @@ BEGIN{
 	skip = 1;
 	table_name="";
 	task="";
+	filename = "clean_database.sql.gz";
+
+	if (output_file != ""){
+		filename = output_file;
+	}
 }
 
 match($0, /-- (Dumping data|Table structure) for table `(.+)`/, matches){
@@ -25,6 +30,6 @@ match($0, /-- (Dumping data|Table structure) for table `(.+)`/, matches){
 	system("")   # flush output
 
 	if(table_name!="" && skip == 0){
-		print | "gzip > clean_database.sql.gz";
+		print | "gzip > "filename;
 	}
 }
